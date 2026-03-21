@@ -638,7 +638,7 @@ clearArchiveBtn.addEventListener('click', () => {
 
 // Restore Task from Archive
 window.restoreTask = function(id) {
-    db.run(`UPDATE tasks SET status = 'todo' WHERE id = ?`, [id], function(err) {
+    db.run(`UPDATE tasks SET status = 'done' WHERE id = ?`, [id], function(err) {
         if (err) return console.error(err);
         loadArchive(archiveDateFilter.value);
         loadTasksFromDB();

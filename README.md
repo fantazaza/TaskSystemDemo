@@ -1,16 +1,16 @@
 # Freelance Task Manager
 
-A premium task management system for freelancers, built with Electron, SQLite, and Google Calendar integration.
+A premium task management system for freelancers, built with Electron and SQLite local storage.
 
 ## Demo
 
 If you're checking out the demo of this application, you can easily run it on your local machine by following the steps below.
 
 ## Features
-- **Task Tracking**: Easily organize and manage your freelance tasks.
-- **Calendar View**: Synchronized with Google Calendar for better scheduling.
-- **Local Storage**: Uses SQLite for fast, localized data storage.
-- **Beautiful UI**: Built with user experience in mind.
+- **Task Tracking**: Easily organize, manage, and track the progress of your freelance projects.
+- **Local Storage**: Uses a built-in SQLite database for fast, reliable, and secure data storage entirely offline.
+- **Task Archiving**: Clean up your workspace by archiving completed tasks.
+- **Beautiful Dark UI**: Built with user comfort and productivity in mind.
 
 ## Installation
 

@@ -1,0 +1,3 @@
+@echo off
+echo Starting Freelance Task Manager (with Bun)...
+bun start

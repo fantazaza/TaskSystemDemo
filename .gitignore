@@ -1,0 +1,10 @@
+node_modules/
+dist/
+build/
+tasksystemDB.db
+*.log
+.DS_Store
+.env
+bun.lock
+.vs/
+.vscode/

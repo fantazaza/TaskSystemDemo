@@ -1,0 +1,38 @@
+{
+  "name": "freelance-task-manager",
+  "version": "1.0.0",
+  "description": "Premium Freelance Task Management System for Desktop",
+  "author": "Rujisan Soongklang",
+  "license": "ISC",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder",
+    "dist": "npm run build"
+  },
+  "build": {
+    "appId": "com.freelance.taskmanager",
+    "productName": "FreelanceTaskManager",
+    "copyright": "Copyright © 2024 Rujisan Soongklang",
+    "directories": {
+      "output": "dist"
+    },
+    "win": {
+      "target": "portable",
+      "icon": "icon.ico"
+    },
+    "mac": {
+      "target": "dmg",
+      "icon": "icon.icns"
+    }
+  },
+  "devDependencies": {
+    "electron": "^29.1.5",
+    "electron-builder": "^24.13.3"
+  },
+  "dependencies": {
+    "googleapis": "^171.4.0",
+    "open": "^11.0.0",
+    "sqlite3": "^6.0.1"
+  }
+}

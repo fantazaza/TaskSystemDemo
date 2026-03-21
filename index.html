@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Freelance Task Manager</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header class="glass-header">
+        <div class="header-content">
+            <h1><i class="fa-solid fa-briefcase"></i> Workspace</h1>
+        </div>
+        <div class="header-actions">
+            <div class="view-switch">
+                <button id="kanbanViewBtn" class="switch-btn active" title="Kanban Board"><i
+                        class="fa-solid fa-table-columns"></i></button>
+                <button id="calendarViewBtn" class="switch-btn" title="Calendar View"><i
+                        class="fa-solid fa-calendar-days"></i></button>
+                <button id="insightsViewBtn" class="switch-btn" title="Statistics & Insights"><i
+                        class="fa-solid fa-chart-line"></i></button>
+            </div>
+            <button id="viewArchiveBtn" class="secondary-btn"><i class="fa-solid fa-box-archive"></i>
+                Archive</button>
+            <button id="addTaskBtn" class="primary-btn"><i class="fa-solid fa-plus"></i> New Task</button>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div id="kanbanView" class="kanban-board">
+            <div class="column" id="todo-column" data-status="todo">
+                <h2 class="column-title"><span class="dot dot-todo"></span> To Do <span
+                        class="task-count">0</span></h2>
+                <div class="task-list"></div>
+            </div>
+            <div class="column" id="inprogress-column" data-status="inprogress">
+                <h2 class="column-title"><span class="dot dot-inprogress"></span> In Progress <span
+                        class="task-count">0</span></h2>
+                <div class="task-list"></div>
+            </div>
+            <div class="column" id="done-column" data-status="done">
+                <h2 class="column-title" style="justify-content: space-between;">
+                    <div style="display:flex; align-items:center; gap:8px;"><span class="dot dot-done"></span> Done
+                        <span class="task-count">0</span></div>
+                    <button id="archiveAllBtn" title="Archive all completed tasks"
+                        style="background:var(--surface-2); border:1px solid var(--border); color:var(--text-1); cursor:pointer; font-size:0.7rem; padding:4px 8px; border-radius:6px; transition:0.2s;"><i
+                            class="fa-solid fa-box-archive"></i> Archive All</button>
+                </h2>
+                <div class="task-list"></div>
+            </div>
+        </div>
+
+        <div id="calendarView" class="calendar-container hidden">
+            <div class="calendar-header">
+                <h2 id="calendarMonth">March 2024</h2>
+                <div class="calendar-nav">
+                    <button id="prevMonthBtn"><i class="fa-solid fa-chevron-left"></i></button>
+                    <button id="todayBtn">Today</button>
+                    <button id="nextMonthBtn"><i class="fa-solid fa-chevron-right"></i></button>
+                </div>
+            </div>
+            <div class="calendar-grid">
+                <div class="weekday">Sun</div>
+                <div class="weekday">Mon</div>
+                <div class="weekday">Tue</div>
+                <div class="weekday">Wed</div>
+                <div class="weekday">Thu</div>
+                <div class="weekday">Fri</div>
+                <div class="weekday">Sat</div>
+                <div id="calendarDays" class="days-container"></div>
+            </div>
+        </div>
+
+        <div id="insightsView" class="insights-container hidden">
+            <header class="insights-header">
+                <div>
+                    <h2><i class="fa-solid fa-chart-pie"></i> Workspace Insights</h2>
+                    <p>Track your freelance performance and revenue metrics.</p>
+                </div>
+                <div class="period-selector">
+                    <button class="period-btn active" data-period="all">All Time</button>
+                    <button class="period-btn" data-period="today">Today</button>
+                    <button class="period-btn" data-period="week">Week</button>
+                    <button class="period-btn" data-period="month">Month</button>
+                    <button class="period-btn" data-period="year">Year</button>
+                </div>
+                <button id="exportCsvBtn" class="secondary-btn" title="Export all tasks to CSV"><i class="fa-solid fa-file-csv"></i> Export CSV</button>
+            </header>
+            
+            <div class="stats-grid">
+                <div class="stat-card revenue earned">
+                    <div class="stat-icon"><i class="fa-solid fa-hand-holding-dollar"></i></div>
+                    <div class="stat-info">
+                        <span class="label">Earned Revenue</span>
+                        <h3 id="statEarnedRevenue">$0</h3>
+                    </div>
+                </div>
+                <div class="stat-card pending pipeline">
+                    <div class="stat-icon"><i class="fa-solid fa-money-bill-trend-up"></i></div>
+                    <div class="stat-info">
+                        <span class="label">Pending Pipeline</span>
+                        <h3 id="statPendingRevenue">$0</h3>
+                    </div>
+                </div>
+                <div class="stat-card tasks">
+                    <div class="stat-icon"><i class="fa-solid fa-check-double"></i></div>
+                    <div class="stat-info">
+                        <span class="label">Completed Tasks</span>
+                        <h3 id="statTasksDone">0 <span>tasks</span></h3>
+                    </div>
+                </div>
+                <div class="stat-card efficiency">
+                    <div class="stat-icon"><i class="fa-solid fa-bolt"></i></div>
+                    <div class="stat-info">
+                        <span class="label">Success Rate</span>
+                        <h3 id="statSuccessRate">0%</h3>
+                    </div>
+                </div>
+            </div>
+
+            <div class="insights-content">
+                <div class="chart-container">
+                    <h3>Project Status Distribution</h3>
+                    <div class="progress-stack" id="statusStack"></div>
+                    <div class="legend" id="statusLegend"></div>
+                </div>
+                
+                <div class="recent-revenue-container">
+                    <h3>Revenue Breakdown</h3>
+                    <div id="revenueBreakdown" class="revenue-list"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal for Add/Edit Task -->
+    <div id="taskModal" class="modal-backdrop hidden">
+        <div class="modal glass-panel">
+            <div class="modal-header">
+                <h2 id="modalTitle">Add New Task</h2>
+                <button class="close-btn" id="closeModalBtn">&times;</button>
+            </div>
+            <form id="taskForm">
+                <input type="hidden" id="taskId">
+                <div class="form-group">
+                    <label for="taskTitle">Task Title</label>
+                    <input type="text" id="taskTitle" required placeholder="e.g. Design UI Mobile App">
+                </div>
+                <div class="form-group">
+                    <label for="taskDesc">Description</label>
+                    <textarea id="taskDesc" rows="3" placeholder="Task details and notes..."></textarea>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="taskPrice">Budget ($)</label>
+                        <input type="number" id="taskPrice" placeholder="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="taskDeadline">Deadline</label>
+                        <div class="date-input-container" onclick="this.querySelector('input').showPicker()">
+                            <i class="fa-solid fa-calendar-day"></i>
+                            <span id="deadlineDisplay">Select Deadline</span>
+                            <input type="date" id="taskDeadline">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="taskStatus">Status</label>
+                        <select id="taskStatus">
+                            <option value="todo">To Do</option>
+                            <option value="inprogress">In Progress</option>
+                            <option value="done">Done</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="taskColor">Task Color</label>
+                        <div class="color-picker-wrapper">
+                            <input type="color" id="taskColor" value="#5c9e78">
+                            <div class="color-presets">
+                                <span class="preset" style="background: #2da2cc;" title="Rest"
+                                    data-color="#2da2cc"></span>
+                                <span class="preset" style="background: #d985f3;" title="Growth"
+                                    data-color="#d985f3"></span>
+                                <span class="preset" style="background: #f6c444;" title="Main Task"
+                                    data-color="#f6c444"></span>
+                                <span class="preset" style="background: #a159d1;"
+                                    title="Collaboration" data-color="#a159d1"></span>
+                                <span class="preset" style="background: #f85252;" title="Urgent"
+                                    data-color="#f85252"></span>
+                                <span class="preset" style="background: #7ad048;" title="Low Value"
+                                    data-color="#7ad048"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="secondary-btn" id="cancelBtn">Cancel</button>
+                    <button type="submit" class="primary-btn">Save Task</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal: Archive -->
+    <div id="archiveModal" class="modal-backdrop hidden">
+        <div class="modal">
+            <div class="modal-header">
+                <div class="archive-header-left">
+                    <h2><i class="fa-solid fa-box-archive"></i> Task Archive</h2>
+                    <span id="archiveCount" class="archive-badge">0</span>
+                </div>
+                <div class="archive-header-right">
+                    <div class="minimal-filter" id="archiveFilterTrigger" onclick="openArchivePicker()">
+                        <i class="fa-solid fa-calendar-day"></i>
+                        <span id="archiveDateDisplay" class="date-display">Select Date</span>
+                        <input type="date" id="archiveDateFilter">
+                    </div>
+                    <button id="resetArchiveFilter" class="minimal-btn" title="Reset View"><i class="fa-solid fa-rotate-right"></i></button>
+                    <div class="v-divider"></div>
+                    <button id="clearArchiveBtn" class="minimal-btn danger-text" title="Clear All Archive"><i class="fa-solid fa-trash-can"></i></button>
+                    <button class="minimal-btn close-x" id="closeArchiveBtn" title="Close"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+            </div>
+            <div id="archiveList" class="archive-list"></div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>

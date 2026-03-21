@@ -215,6 +215,7 @@ function renderCalendar() {
                 taskItem.addEventListener('dragstart', (e) => {
                     e.dataTransfer.setData('text/plain', task.id);
                     e.dataTransfer.setData('source', 'calendar');
+                    window.draggedTaskId = task.id;
                     setTimeout(() => taskItem.style.opacity = '0.4', 0);
                 });
                 taskItem.addEventListener('dragend', () => taskItem.style.opacity = '1');
@@ -268,9 +269,11 @@ function createDayElement(dayNumber, isOtherMonth, isToday = false) {
             e.preventDefault();
             div.classList.remove('drag-over-cal');
             
-            const taskId = e.dataTransfer.getData('text/plain');
+            const taskId = e.dataTransfer.getData('text/plain') || window.draggedTaskId;
             const newDate = div.getAttribute('data-date');
             
+            if (!taskId) return;
+
             db.run(`UPDATE tasks SET deadline = ? WHERE id = ?`, [newDate, taskId], (err) => {
                 if (err) console.error(err);
                 loadTasksFromDB();
@@ -378,6 +381,7 @@ function createTaskCard(task) {
     // Drag Events
     card.addEventListener('dragstart', (e) => {
         e.dataTransfer.setData('text/plain', task.id);
+        window.draggedTaskId = task.id;
         setTimeout(() => card.style.opacity = '0.5', 0);
     });
 
@@ -522,7 +526,9 @@ function setupDragAndDrop() {
             e.preventDefault();
             column.classList.remove('drag-over');
 
-            const taskId = e.dataTransfer.getData('text/plain');
+            const taskId = e.dataTransfer.getData('text/plain') || window.draggedTaskId;
+            if (!taskId) return;
+            
             const newStatus = column.getAttribute('data-status');
 
             const taskIndex = tasks.findIndex(t => t.id === taskId);

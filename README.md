@@ -1,6 +1,6 @@
 # Freelance Task Manager
 
-A premium task management system for freelancers, built with Electron and SQLite local storage.
+A task management system for freelancers, built with Electron and SQLite local storage.
 
 ## Demo
 

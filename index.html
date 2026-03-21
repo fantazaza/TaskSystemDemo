@@ -35,8 +35,7 @@
     <main class="main-content">
         <div id="kanbanView" class="kanban-board">
             <div class="column" id="todo-column" data-status="todo">
-                <h2 class="column-title"><span class="dot dot-todo"></span> To Do <span
-                        class="task-count">0</span></h2>
+                <h2 class="column-title"><span class="dot dot-todo"></span> To Do <span class="task-count">0</span></h2>
                 <div class="task-list"></div>
             </div>
             <div class="column" id="inprogress-column" data-status="inprogress">
@@ -47,7 +46,8 @@
             <div class="column" id="done-column" data-status="done">
                 <h2 class="column-title" style="justify-content: space-between;">
                     <div style="display:flex; align-items:center; gap:8px;"><span class="dot dot-done"></span> Done
-                        <span class="task-count">0</span></div>
+                        <span class="task-count">0</span>
+                    </div>
                     <button id="archiveAllBtn" title="Archive all completed tasks"
                         style="background:var(--surface-2); border:1px solid var(--border); color:var(--text-1); cursor:pointer; font-size:0.7rem; padding:4px 8px; border-radius:6px; transition:0.2s;"><i
                             class="fa-solid fa-box-archive"></i> Archive All</button>
@@ -90,9 +90,10 @@
                     <button class="period-btn" data-period="month">Month</button>
                     <button class="period-btn" data-period="year">Year</button>
                 </div>
-                <button id="exportCsvBtn" class="secondary-btn" title="Export all tasks to CSV"><i class="fa-solid fa-file-csv"></i> Export CSV</button>
+                <button id="exportCsvBtn" class="secondary-btn" title="Export all tasks to CSV"><i
+                        class="fa-solid fa-file-csv"></i> Export CSV</button>
             </header>
-            
+
             <div class="stats-grid">
                 <div class="stat-card revenue earned">
                     <div class="stat-icon"><i class="fa-solid fa-hand-holding-dollar"></i></div>
@@ -130,7 +131,7 @@
                     <div class="progress-stack" id="statusStack"></div>
                     <div class="legend" id="statusLegend"></div>
                 </div>
-                
+
                 <div class="recent-revenue-container">
                     <h3>Revenue Breakdown</h3>
                     <div id="revenueBreakdown" class="revenue-list"></div>
@@ -190,8 +191,8 @@
                                     data-color="#d985f3"></span>
                                 <span class="preset" style="background: #f6c444;" title="Main Task"
                                     data-color="#f6c444"></span>
-                                <span class="preset" style="background: #a159d1;"
-                                    title="Collaboration" data-color="#a159d1"></span>
+                                <span class="preset" style="background: #a159d1;" title="Collaboration"
+                                    data-color="#a159d1"></span>
                                 <span class="preset" style="background: #f85252;" title="Urgent"
                                     data-color="#f85252"></span>
                                 <span class="preset" style="background: #7ad048;" title="Low Value"
@@ -222,10 +223,13 @@
                         <span id="archiveDateDisplay" class="date-display">Select Date</span>
                         <input type="date" id="archiveDateFilter">
                     </div>
-                    <button id="resetArchiveFilter" class="minimal-btn" title="Reset View"><i class="fa-solid fa-rotate-right"></i></button>
+                    <button id="resetArchiveFilter" class="minimal-btn" title="Reset View"><i
+                            class="fa-solid fa-rotate-right"></i></button>
                     <div class="v-divider"></div>
-                    <button id="clearArchiveBtn" class="minimal-btn danger-text" title="Clear All Archive"><i class="fa-solid fa-trash-can"></i></button>
-                    <button class="minimal-btn close-x" id="closeArchiveBtn" title="Close"><i class="fa-solid fa-xmark"></i></button>
+                    <button id="clearArchiveBtn" class="minimal-btn danger-text" title="Clear All Archive"><i
+                            class="fa-solid fa-trash-can"></i></button>
+                    <button class="minimal-btn close-x" id="closeArchiveBtn" title="Close"><i
+                            class="fa-solid fa-xmark"></i></button>
                 </div>
             </div>
             <div id="archiveList" class="archive-list"></div>

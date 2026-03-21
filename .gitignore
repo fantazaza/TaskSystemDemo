@@ -8,3 +8,5 @@ tasksystemDB.db
 bun.lock
 .vs/
 .vscode/
+google_credentials.json
+token.json

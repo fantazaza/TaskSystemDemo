@@ -1,18 +1,20 @@
-# Freelance Task Manager
+# Freelance Task Manager (Demo Preview)
 
-A task management system for freelancers, built with Electron and SQLite local storage.
+> [!IMPORTANT]
+> **Technical Preview / Incomplete Demo**: This repository contains a work-in-progress preview of the Freelance Task Management System. Some features may be partially implemented or are intended for demonstration purposes only.
 
-## Demo
+A premium task management system for freelancers, built with Electron and SQLite local storage.
 
-If you're checking out the demo of this application, you can easily run it on your local machine by following the steps below.
+## Project Status: Demo
+This version is a **limited demo** to showcase the UI/UX and core architecture. 
+- [x] Basic Task Tracking (Kanban)
+- [x] SQLite Local Integration
+- [x] Modern Dark UI
+- [x] Task Archiving
+- [ ] Full Data Export (In Progress)
+- [ ] Advanced Analytics (Coming Soon)
 
-## Features
-- **Task Tracking**: Easily organize, manage, and track the progress of your freelance projects.
-- **Local Storage**: Uses a built-in SQLite database for fast, reliable, and secure data storage entirely offline.
-- **Task Archiving**: Clean up your workspace by archiving completed tasks.
-- **Beautiful Dark UI**: Built with user comfort and productivity in mind.
-
-## Installation
+## Installation (For Preview)
 
 1. Clone or download this repository.
 2. Install the necessary dependencies:

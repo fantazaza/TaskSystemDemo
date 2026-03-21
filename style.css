@@ -786,11 +786,21 @@ select option { background: var(--surface-2); }
     font-size: 0.85rem;
     color: var(--text-2);
 }
+.archive-item-price-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
 .archive-item-price {
     font-size: 1.1rem;
     font-weight: 700;
     color: var(--accent);
     white-space: nowrap;
+}
+.restore-btn:hover {
+    background: var(--accent-light);
+    color: var(--accent);
+    border-color: var(--accent);
 }
 .archive-empty {
     grid-column: 1 / -1;

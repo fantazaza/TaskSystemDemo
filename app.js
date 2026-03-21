@@ -579,7 +579,12 @@ function loadArchive(dateFilter = null) {
                     <h4>${task.title}</h4>
                     <span>Completed: ${formatDate(task.createdAt)}</span>
                 </div>
-                <div class="archive-item-price">${formatCurrency(task.price)}</div>
+                <div class="archive-item-price-actions">
+                    <div class="archive-item-price">${formatCurrency(task.price)}</div>
+                    <button class="action-btn restore-btn" onclick="restoreTask('${task.id}')" title="Restore to Board">
+                        <i class="fa-solid fa-rotate-left"></i>
+                    </button>
+                </div>
             `;
             archiveList.appendChild(div);
         });
@@ -630,6 +635,15 @@ clearArchiveBtn.addEventListener('click', () => {
         });
     }
 });
+
+// Restore Task from Archive
+window.restoreTask = function(id) {
+    db.run(`UPDATE tasks SET status = 'todo' WHERE id = ?`, [id], function(err) {
+        if (err) return console.error(err);
+        loadArchive(archiveDateFilter.value);
+        loadTasksFromDB();
+    });
+}
 
 // Event Listeners
 const archiveAllBtn = document.getElementById('archiveAllBtn');

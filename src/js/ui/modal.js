@@ -98,6 +98,11 @@ export function openModal(isEdit = false) {
     if (!isEdit) {
         modalTitle.textContent = 'Add New Task';
         if (deleteTaskBtn) deleteTaskBtn.classList.add('hidden');
+        
+        // Default to Today
+        const today = new Date().toISOString().split('T')[0];
+        inputDeadline.value = today;
+        deadlineDisplay.textContent = new Date().toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' });
     } else {
         modalTitle.textContent = 'Edit Task';
         if (deleteTaskBtn) deleteTaskBtn.classList.remove('hidden');

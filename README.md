@@ -1,51 +1,56 @@
 # Freelance Task Manager (Premium Edition)
 
-A professional, high-performance task management system specifically designed for freelancers. Built with **Electron**, **SQLite**, and modern **Vanilla JS/CSS**, it offers a seamless desktop experience with complete data privacy and local storage.
+ระบบจัดการงานระดับมืออาชีพที่ออกแบบมาเพื่อฟรีแลนซ์โดยเฉพาะ พัฒนาด้วย **Electron**, **SQLite** และ **Vanilla JS/CSS** สมัยใหม่ มอบประสบการณ์การใช้งานบนเดสก์ท็อปที่ลื่นไหล พร้อมความปลอดภัยของข้อมูลขั้นสูงสุดด้วยการจัดเก็บข้อมูลแบบ Local
 
-## ✨ Key Features
+---
 
-- **🚀 Smart Kanban Board**: Drag-and-drop tasks between statuses (To Do, In Progress, Done) with real-time updates.
-- **📅 Full Calendar View**: Visualize your schedule and deadlines across months. Supports vertical expansion for heavy workload days.
-- **📊 Insights Dashboard**: Real-time analytics on earned revenue, pending payments, and project success rates with detailed breakdown charts.
-- **📁 Secure Archive Module**: Move completed tasks to a dedicated archive to keep your workspace clean. Supports per-item or bulk deletion.
-- **🎨 Modern Dark UI**: Sleek, glassmorphic design that reduces eye strain and looks premium.
-- **🛡️ Data Security & Isolation**: Uses specialized local storage paths (AppData/Roaming) to ensure your project data is safe from accidental deletion.
+## ✨ ฟีเจอร์เด่น (Key Features)
 
-## 🛠️ Technical Stack
+- **🚀 Smart Kanban Board**: ระบบลากวางงาน (Drag-and-drop) ระหว่างสถานะ To Do, In Progress และ Done พร้อมอัปเดตแบบเรียลไทม์
+- **📅 Full Calendar View**: ดูตารางงานและเส้นตาย (Deadline) ของคุณในรูปแบบปฏิทินที่รองรับการขยายช่องเมื่อมีงานหนาแน่นในแต่ละวัน
+- **📊 Insights Dashboard**: หน้าปัดสรุปสถิติแบบเรียลไทม์ แสดงรายได้ที่ได้รับแล้ว (Earned), รายได้ที่รอรับ (Pending) และอัตราความสำเร็จ (Success Rate) พร้อมกราฟสัดส่วนงาน
+- **💰 Dynamic Currency Settings**: เมนูตั้งค่าใหม่ให้คุณเลือกสัญลักษณ์สกุลเงิน (เช่น $, ฿, €) ได้ตามต้องการ โดยระบบจะอัปเดตการแสดงผลราคาทุกจุด รวมถึงตอน Export ให้โดยอัตโนมัติ
+- **📥 CSV Export**: ส่งออกรายการงานทั้งหมดของคุณเป็นไฟล์ `.csv` อย่างง่ายดาย รองรับข้อความที่มีลูกน้ำ (Comma) หรือบรรทัดใหม่ (New line) อย่างสมบูรณ์แบบ
+- **🔔 Modern Toast Notifications**: ระบบแจ้งเตือนข้อผิดพลาดและการทำงานที่สวยงามและหายไปเองอัตโนมัติ (ไม่ใช้ Popup น่ารำคาญ)
+- **📁 Secure Archive Module**: ระบบจัดเก็บงานที่ทำเสร็จแล้วเข้าสู่ Archive เพื่อให้พื้นที่ทำงานของคุณสะอาดตา สามารถเลือกลบถาวรหรือกู้คืนกลับไปยังสถานะเดิมได้
+- **🎨 Modern Dark UI**: ดีไซน์แบบ Glassmorphism สไตล์พรีเมียม ถนอมสายตา ใช้งานได้ยาวนาน
+- **🛡️ Data Security & Isolation**: ดาต้าเบสถูกแยกไปเก็บไว้ใน AppData ของระบบปฏิบัติการอย่างปลอดภัย ป้องกันไฟล์โปรเจคเสียหายหรือสูญหาย
+
+## 🛠️ เทคโนโลยีที่ใช้ (Technical Stack)
 
 - **Framework**: Electron (Main & Preload Context Architecture)
 - **Database**: SQLite3 (Local, Encapsulated)
-- **Styling**: Vanilla CSS (Modern Grid/Flexbox Layouts)
-- **Logic**: ES6 Modules for clean, maintainable, and modular code.
+- **Styling**: Vanilla CSS (Modern Grid/Flexbox Layouts + CSS Variables)
+- **Logic**: ES6 Modules แยกไฟล์ชัดเจน ง่ายต่อการดูแลรักษา (State Management, API, UI Components)
 
-## 📦 Installation & Setup
+## 📦 การติดตั้งและการใช้งาน (Installation & Setup)
 
-1. **Prerequisites**: Ensure you have [Node.js](https://nodejs.org/) installed.
-2. **Clone/Download** this repository.
-3. **Install Dependencies**:
+1. **ข้อกำหนดเบื้องต้น**: ตรวจสอบให้แน่ใจว่าคุณติดตั้ง [Node.js](https://nodejs.org/) ในเครื่องแล้ว
+2. **Clone หรือดาวน์โหลด** ไฟล์ใน Repository นี้
+3. **ติดตั้ง Dependencies**:
    ```bash
    npm install
    ```
-4. **Launch Application**:
+4. **เปิดแอปพลิเคชัน**:
    ```bash
    npm start
    ```
 
-## 🏗️ Build & Distribution
+## 🏗️ การ Build โปรแกรมเพื่อนำไปใช้ (Build & Distribution)
 
-To package this application into a portable executable (`.exe` for Windows, `.dmg` for macOS):
+หากคุณต้องการแพ็กเกจแอปพลิเคชันนี้เพื่อนำไปติดตั้งเป็นไฟล์ `.exe` (สำหรับ Windows) หรือ `.dmg` (สำหรับ macOS):
 ```bash
 npm run build
 ```
-The final package will be generated in the `dist/` directory.
+ระบบจะสร้างไฟล์สำหรับติดตั้งให้คุณในโฟลเดอร์ `dist/` ทันที
 
-## 💾 Data Management
+## 💾 การจัดการข้อมูล (Data Management)
 
-By default, all data is stored locally in your system's `AppData/Roaming` directory:
-- **Windows**: `%APPDATA%\freelance-task-manager`
-- **Mac**: `~/Library/Application Support/freelance-task-manager`
+ข้อมูลทั้งหมดของคุณ (รวมถึงการตั้งค่าสกุลเงิน) จะถูกเก็บไว้ในเครื่องของคุณ 100% โดยอยู่ที่:
+- **Windows**: `%APPDATA%\TaskSystem\tasksystemDB.db` (หรือตามชื่อโปรเจคใน User Data)
+- **Mac**: `~/Library/Application Support/TaskSystem/tasksystemDB.db`
 
-This ensures your data persists even if you update or move the application's source folder.
+การเก็บข้อมูลแบบนี้ทำให้คุณมั่นใจได้ว่าแม้จะลบโฟลเดอร์โปรแกรมทิ้ง หรืออัปเดตเวอร์ชันใหม่ ข้อมูลงานทั้งหมดก็จะยังคงอยู่เหมือนเดิม
 
 ## 📄 License
-This project is licensed under the [ISC License](LICENSE).
+โปรเจคนี้อยู่ภายใต้ไลเซนส์ [ISC License](LICENSE)

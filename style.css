@@ -716,8 +716,9 @@ select option { background: var(--surface-2); }
     opacity: 0;
     width: 100%;
     height: 100%;
-    pointer-events: none; /* Let the div's onclick handle everything */
-    z-index: 1;
+    cursor: pointer;
+    pointer-events: auto; /* Let input catch the click */
+    z-index: 2;
 }
 
 .date-display {
@@ -859,11 +860,12 @@ select option { background: var(--surface-2); }
     color: var(--text-3);
     font-size: 1rem;
     margin-right: 12px;
+    pointer-events: none; /* Let click pass through to input */
 }
 .date-input-container span {
     color: var(--text-1);
     font-size: 0.9rem;
-    pointer-events: none;
+    pointer-events: none; /* Let click pass through to input */
 }
 .date-input-container input[type="date"] {
     position: absolute;
@@ -872,6 +874,8 @@ select option { background: var(--surface-2); }
     width: 100%;
     height: 100%;
     cursor: pointer;
+    pointer-events: auto; /* Ensure input catches the click */
+    z-index: 2;
 }
 
 

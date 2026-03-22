@@ -86,13 +86,17 @@ export function initModal() {
 }
 
 export function openModal(isEdit = false) {
+    taskForm.reset(); // Clear basic fields
+    inputId.value = ''; // HIDDEN fields are not reset by form.reset()
+    
+    // Explicitly clear non-standard fields if any
+    if (deadlineDisplay) deadlineDisplay.textContent = 'Select Deadline';
+    
     taskModal.classList.remove('hidden');
     const deleteTaskBtn = document.getElementById('deleteTaskBtn');
+    
     if (!isEdit) {
-        taskForm.reset();
-        inputId.value = '';
         modalTitle.textContent = 'Add New Task';
-        deadlineDisplay.textContent = 'Select Deadline';
         if (deleteTaskBtn) deleteTaskBtn.classList.add('hidden');
     } else {
         modalTitle.textContent = 'Edit Task';
@@ -102,10 +106,14 @@ export function openModal(isEdit = false) {
 
 export function closeModal() {
     taskModal.classList.add('hidden');
-    setTimeout(() => taskForm.reset(), 300);
+    taskForm.reset(); 
+    inputId.value = '';
+    if (deadlineDisplay) deadlineDisplay.textContent = 'Select Deadline';
 }
 
 export function openEditModal(task) {
+    openModal(true); // Call openModal first to reset others
+    
     inputId.value = task.id;
     inputTitle.value = task.title;
     inputDesc.value = task.description;
@@ -117,9 +125,5 @@ export function openEditModal(task) {
     if (task.deadline) {
         const date = new Date(task.deadline);
         deadlineDisplay.textContent = date.toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' });
-    } else {
-        deadlineDisplay.textContent = 'Select Deadline';
     }
-
-    openModal(true);
 }

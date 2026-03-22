@@ -1,24 +1,29 @@
 const { google } = require('googleapis');
 const http = require('http');
 const url = require('url');
-const open = require('open');
 const fs = require('fs');
 const path = require('path');
 
 // These would normally come from your Google Cloud Console
 // But for now, since it's a test, I am creating a structure.
 // You will need to put YOUR actual Client ID and Secret here later.
-const CREDENTIALS_PATH = path.join(__dirname, 'google_credentials.json');
-const TOKEN_PATH = path.join(__dirname, 'token.json');
+let CREDENTIALS_PATH;
+let TOKEN_PATH;
 
 class GoogleCalendarService {
     constructor() {
         this.oAuth2Client = null;
+        this.credentials = null;
+    }
+
+    init(userDataPath) {
+        CREDENTIALS_PATH = path.join(userDataPath, 'google_credentials.json');
+        TOKEN_PATH = path.join(userDataPath, 'token.json');
         this.credentials = this.loadCredentials();
     }
 
     loadCredentials() {
-        if (fs.existsSync(CREDENTIALS_PATH)) {
+        if (CREDENTIALS_PATH && fs.existsSync(CREDENTIALS_PATH)) {
             return JSON.parse(fs.readFileSync(CREDENTIALS_PATH));
         }
         return null;
@@ -49,7 +54,10 @@ class GoogleCalendarService {
         });
 
         console.log('Authorize this app by visiting this url:', authUrl);
-        open(authUrl);
+        
+        // Dynamically import 'open' as it is an ES Module
+        const { default: openApp } = await import('open');
+        await openApp(authUrl);
 
         return new Promise((resolve, reject) => {
             const server = http.createServer(async (req, res) => {

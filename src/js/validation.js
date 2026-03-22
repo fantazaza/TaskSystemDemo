@@ -3,22 +3,28 @@ export function validateTask(task) {
     
     if (!task.title || task.title.trim().length === 0) {
         errors.push("Title is required.");
+    } else if (task.title.length > 100) {
+        errors.push("Title must be under 100 characters.");
     }
-    
-    if (task.price !== undefined && task.price !== null && task.price !== '') {
-        const priceNum = parseFloat(task.price);
-        if (isNaN(priceNum) || priceNum < 0) {
-            errors.push("Price must be a valid non-negative number.");
-        }
+
+    if (task.description && task.description.length > 500) {
+        errors.push("Description must be under 500 characters.");
     }
-    
+
+    const price = parseFloat(task.price);
+    if (isNaN(price) || price < 0) {
+        errors.push("Price must be a valid non-negative number.");
+    } else if (price > 1000000) {
+        errors.push("Price seems unusually high. Please verify.");
+    }
+
     if (task.deadline) {
-        const dateObj = new Date(task.deadline);
-        if (isNaN(dateObj.getTime())) {
-            errors.push("Invalid deadline date.");
+        const deadlineDate = new Date(task.deadline);
+        if (isNaN(deadlineDate.getTime())) {
+            errors.push("Invalid deadline date format.");
         }
     }
-    
+
     return errors;
 }
 

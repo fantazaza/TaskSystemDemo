@@ -1,6 +1,7 @@
 const { app, BrowserWindow, ipcMain } = require('electron')
 const path = require('path')
 const dbHandler = require('./database')
+const googleCalendar = require('./googleCalendar')
 
 function createWindow () {
   const mainWindow = new BrowserWindow({
@@ -25,8 +26,10 @@ function createWindow () {
 }
 
 app.whenReady().then(async () => {
-  // Initialize DB in main process
-  await dbHandler.init(app.getPath('userData'));
+  // Initialize DB and Google Calendar in main process
+  const userDataPath = app.getPath('userData');
+  await dbHandler.init(userDataPath);
+  googleCalendar.init(userDataPath);
 
   // Register IPC handlers
   ipcMain.handle('db:getTasks', async (event, filters) => dbHandler.getTasks(filters));

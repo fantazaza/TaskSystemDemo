@@ -24,6 +24,14 @@
     --text-1:         #e0e4ed;  /* primary */
     --text-2:         #8990a0;  /* secondary */
     --text-3:         #4e5562;  /* muted */
+
+    /* Layout Tokens */
+    --header-h:       68px;
+    --side-pad:       2.25rem;
+    --radius-lg:      12px;
+    --radius-md:      10px;
+    --transition:     0.2s;
+    --shadow-sm:      0 2px 8px rgba(0,0,0,0.2);
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -48,8 +56,8 @@ body {
     flex-shrink: 0;
     background: var(--surface);
     border-bottom: 1px solid var(--border);
-    padding: 0 2.25rem;
-    height: 68px;
+    padding: 0 var(--side-pad);
+    height: var(--header-h);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -91,7 +99,7 @@ body {
     color: #fff;
     border: none;
     padding: 0.6rem 1.4rem;
-    border-radius: 10px;
+    border-radius: var(--radius-md);
     font-size: 0.9rem;
     font-weight: 600;
     font-family: inherit;
@@ -99,7 +107,7 @@ body {
     display: flex;
     align-items: center;
     gap: 8px;
-    transition: background 0.2s, transform 0.15s;
+    transition: background var(--transition), transform 0.15s;
 }
 .primary-btn:hover { background: var(--accent-hover); transform: translateY(-1px); }
 
@@ -108,11 +116,11 @@ body {
     color: var(--text-1);
     border: 1px solid var(--border);
     padding: 0.6rem 1.4rem;
-    border-radius: 10px;
+    border-radius: var(--radius-md);
     font-size: 0.9rem;
     font-family: inherit;
     cursor: pointer;
-    transition: background 0.2s;
+    transition: background var(--transition);
 }
 .secondary-btn:hover { 
     background: var(--surface); 
@@ -125,7 +133,7 @@ body {
     color: var(--danger);
     border: 1px solid var(--danger);
     padding: 0.6rem 1.4rem;
-    border-radius: 10px;
+    border-radius: var(--radius-md);
     font-size: 0.9rem;
     font-family: inherit;
     cursor: pointer;
@@ -133,7 +141,7 @@ body {
     display: flex;
     align-items: center;
     gap: 8px;
-    transition: all 0.2s;
+    transition: all var(--transition);
 }
 .danger-btn:hover {
     background: var(--danger);
@@ -242,9 +250,9 @@ body {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     /* 1 row for weekday headers, 6 rows for up to 42 day cells */
-    grid-template-rows: max-content repeat(6, minmax(110px, auto)); 
+    grid-template-rows: max-content repeat(6, minmax(var(--cal-row-min-height, 110px), auto)); 
     border: 1px solid var(--border);
-    border-radius: 12px;
+    border-radius: var(--radius-lg);
     background: var(--border);
     gap: 1px;
 }

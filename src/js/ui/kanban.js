@@ -55,8 +55,15 @@ function createTaskCard(task) {
         archiveBtn.innerHTML = '<i class="fa-solid fa-box-archive"></i>';
         archiveBtn.addEventListener('click', async (e) => {
             e.stopPropagation();
-            await api.archiveTask(task.id);
-            state.loadTasks();
+            try {
+                await api.archiveTask(task.id);
+                // Update local state instead of reloading
+                const t = state.tasks.find(t => t.id === task.id);
+                if (t) Object.assign(t, { originalStatus: t.status, status: 'archived' });
+                state.notify();
+            } catch (err) {
+                console.error("Archive failed", err);
+            }
         });
         actionsDiv.appendChild(archiveBtn);
     }
@@ -78,8 +85,14 @@ function createTaskCard(task) {
     delBtn.addEventListener('click', async (e) => {
         e.stopPropagation();
         if (confirm('Are you sure you want to delete this task?')) {
-            await api.deleteTask(task.id);
-            state.loadTasks();
+            try {
+                await api.deleteTask(task.id);
+                // Update state locally
+                state.tasks = state.tasks.filter(t => t.id !== task.id);
+                state.notify();
+            } catch (err) {
+                console.error("Delete failed", err);
+            }
         }
     });
     actionsDiv.appendChild(delBtn);
@@ -110,8 +123,8 @@ function createTaskCard(task) {
         const deadlineDate = new Date(task.deadline);
         today.setHours(0, 0, 0, 0);
         deadlineDate.setHours(0, 0, 0, 0);
-        if (deadlineDate < today && task.status !== 'done') {
-            deadlineDiv.style.color = '#ef4444';
+        if (deadlineDate < today) {
+            deadlineDiv.style.color = task.status === 'done' ? '#d1d5db' : '#ef4444';
         }
     }
     deadlineDiv.innerHTML = '<i class="fa-regular fa-calendar-check"></i> ';
@@ -137,10 +150,12 @@ function createTaskCard(task) {
 }
 
 function setupDragAndDrop() {
-    const columns = document.querySelectorAll('.column');
+    const kanbanBoard = document.querySelector('.kanban-board');
+    if (!kanbanBoard) return;
 
-    columns.forEach(column => {
-        column.addEventListener('dragover', (e) => {
+    kanbanBoard.addEventListener('dragover', (e) => {
+        const column = e.target.closest('.column');
+        if (column) {
             e.preventDefault();
             column.classList.add('drag-over');
             
@@ -155,17 +170,27 @@ function setupDragAndDrop() {
                 });
                 
                 const taskList = column.querySelector('.task-list');
-                if (nextSibling) {
-                    taskList.insertBefore(draggingCard, nextSibling);
-                } else {
-                    taskList.appendChild(draggingCard);
+                if (taskList) {
+                    if (nextSibling) {
+                        taskList.insertBefore(draggingCard, nextSibling);
+                    } else {
+                        taskList.appendChild(draggingCard);
+                    }
                 }
             }
-        });
+        }
+    });
 
-        column.addEventListener('dragleave', () => column.classList.remove('drag-over'));
+    kanbanBoard.addEventListener('dragleave', (e) => {
+        const column = e.target.closest('.column');
+        if (column && !column.contains(e.relatedTarget)) {
+            column.classList.remove('drag-over');
+        }
+    });
 
-        column.addEventListener('drop', async (e) => {
+    kanbanBoard.addEventListener('drop', async (e) => {
+        const column = e.target.closest('.column');
+        if (column) {
             e.preventDefault();
             column.classList.remove('drag-over');
 
@@ -176,11 +201,17 @@ function setupDragAndDrop() {
             const task = state.tasks.find(t => t.id === taskId);
             
             if (task && task.status !== newStatus) {
-                await api.updateTask({ id: taskId, statusOnly: true, status: newStatus });
-                state.loadTasks();
+                try {
+                    await api.updateTask({ id: taskId, statusOnly: true, status: newStatus });
+                    task.status = newStatus;
+                    state.notify();
+                } catch (err) {
+                    console.error("Drop update failed", err);
+                    state.notify(); // Revert UI
+                }
             } else {
-                state.loadTasks();
+                state.notify(); // Just re-render
             }
-        });
+        }
     });
 }

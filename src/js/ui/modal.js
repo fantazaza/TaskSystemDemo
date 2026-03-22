@@ -22,9 +22,14 @@ export function initModal() {
     const deleteTaskBtn = document.getElementById('deleteTaskBtn');
     deleteTaskBtn.addEventListener('click', async () => {
         if (inputId.value && confirm('Are you sure you want to delete this task?')) {
-            await api.deleteTask(inputId.value);
-            state.loadTasks();
-            closeModal();
+            try {
+                await api.deleteTask(inputId.value);
+                state.tasks = state.tasks.filter(t => t.id !== inputId.value);
+                state.notify();
+                closeModal();
+            } catch (err) {
+                console.error("Delete failed", err);
+            }
         }
     });
 
@@ -55,15 +60,24 @@ export function initModal() {
         
         const priceValue = inputPrice.value ? parseFloat(inputPrice.value) : 0;
         
+        // Preserve original createdAt date if it exists
+        let createdAtDate = new Date().toISOString();
+        if (inputId.value) {
+            const existingTask = state.tasks.find(t => t.id === inputId.value);
+            if (existingTask && existingTask.createdAt) {
+                createdAtDate = existingTask.createdAt;
+            }
+        }
+        
         const taskData = {
             id: inputId.value || generateId(),
-            title: inputTitle.value,
-            description: inputDesc.value,
+            title: inputTitle.value?.trim() || '',
+            description: inputDesc.value?.trim() || '',
             price: priceValue.toString(),
-            deadline: inputDeadline.value,
-            status: inputStatus.value,
-            color: inputColor.value,
-            createdAt: new Date().toISOString()
+            deadline: inputDeadline.value || '',
+            status: inputStatus.value || 'todo',
+            color: inputColor.value || '#5c9e78',
+            createdAt: createdAtDate
         };
 
         const errors = validateTask(taskData);
@@ -75,12 +89,19 @@ export function initModal() {
         try {
             if (inputId.value) {
                 await api.updateTask(taskData);
+                const idx = state.tasks.findIndex(t => t.id === taskData.id);
+                if (idx !== -1) {
+                    state.tasks[idx] = taskData;
+                }
             } else {
                 await api.addTask(taskData);
+                state.tasks.unshift(taskData); // Add to beginning
             }
-            state.loadTasks();
+            state.notify();
             closeModal();
         } catch (error) {
+            console.error('Failed to save task:', error);
+            showErrorNotification(error.message || 'Failed to save task. Please try again.');
         }
     });
 }

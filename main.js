@@ -50,6 +50,10 @@ app.whenReady().then(async () => {
   wrapHandler('db:clearArchive', () => dbHandler.clearArchive());
   wrapHandler('db:archiveAllDone', () => dbHandler.archiveAllDone());
 
+  // Settings Handlers
+  wrapHandler('setting:get', (key) => dbHandler.getSetting(key));
+  wrapHandler('setting:set', (key, value) => dbHandler.setSetting(key, value));
+
   createWindow()
 
   app.on('activate', function () {

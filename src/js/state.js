@@ -3,6 +3,7 @@ import * as api from './api.js';
 export const state = {
     tasks: [],
     listeners: [],
+    currency: '$',
     
     subscribe(callback) {
         this.listeners.push(callback);
@@ -12,9 +13,18 @@ export const state = {
         this.listeners.forEach(cb => cb(this.tasks));
     },
 
-    async loadTasks() {
-        this.tasks = await api.getTasks({}); // Fetch all tasks for all views
-        this.notify();
+    async loadSettings() {
+        const symbol = await api.getSetting('currency');
+        if (symbol) {
+            this.currency = symbol;
+            this.updateGlobalUI();
+            this.notify();
+        }
+    },
+
+    updateGlobalUI() {
+        const budgetLabel = document.getElementById('budgetCurrency');
+        if (budgetLabel) budgetLabel.textContent = this.currency;
     }
 };
 
@@ -23,8 +33,8 @@ export function generateId() {
 }
 
 export function formatCurrency(amount) {
-    if (!amount) return '$0';
-    return '$' + parseFloat(amount).toLocaleString('en-US');
+    if (!amount) return state.currency + '0';
+    return state.currency + parseFloat(amount).toLocaleString('en-US');
 }
 
 export function formatDate(dateStr) {

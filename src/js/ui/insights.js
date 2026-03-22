@@ -142,7 +142,7 @@ async function exportTasksToCSV() {
         return;
     }
 
-    const headers = ["ID", "Title", "Description", "Price ($)", "Deadline", "Status", "Created At", "Color"];
+    const headers = ["ID", "Title", "Description", `Price (${state.currency})`, "Deadline", "Status", "Created At", "Color"];
     const rows = allTasks.map(t => [
         t.id,
         `"${t.title.replace(/"/g, '""')}"`,

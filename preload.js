@@ -8,5 +8,9 @@ contextBridge.exposeInMainWorld('electronAPI', {
     archiveTask: (id) => ipcRenderer.invoke('db:archiveTask', id),
     restoreTask: (id) => ipcRenderer.invoke('db:restoreTask', id),
     clearArchive: () => ipcRenderer.invoke('db:clearArchive'),
-    archiveAllDone: () => ipcRenderer.invoke('db:archiveAllDone')
+    archiveAllDone: () => ipcRenderer.invoke('db:archiveAllDone'),
+    
+    // Settings API
+    getSetting: (key) => ipcRenderer.invoke('setting:get', key),
+    setSetting: (key, value) => ipcRenderer.invoke('setting:set', key, value)
 });

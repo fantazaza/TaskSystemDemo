@@ -29,11 +29,38 @@ module.exports = {
                 // Create index on status for faster filtering
                 db.run(`CREATE INDEX IF NOT EXISTS idx_tasks_status ON tasks(status)`);
 
+                // Create settings table
+                db.run(`CREATE TABLE IF NOT EXISTS settings (
+                    key TEXT PRIMARY KEY,
+                    value TEXT
+                )`, () => {
+                   // Ensure default currency is set
+                   db.run(`INSERT OR IGNORE INTO settings (key, value) VALUES ('currency', '$')`);
+                });
+
                 // We try adding color column, ignoring error if it exists (for backward compatibility)
                 db.run(`ALTER TABLE tasks ADD COLUMN color TEXT`, (err) => {
                     resolve();
                 });
             });
+        });
+    },
+
+    getSetting: function(key) {
+        return new Promise((resolve, reject) => {
+           db.get(`SELECT value FROM settings WHERE key = ?`, [key], (err, row) => {
+               if (err) reject(err);
+               else resolve(row ? row.value : null);
+           });
+        });
+    },
+
+    setSetting: function(key, value) {
+        return new Promise((resolve, reject) => {
+           db.run(`INSERT OR REPLACE INTO settings (key, value) VALUES (?, ?)`, [key, value], function(err) {
+               if (err) reject(err);
+               else resolve(true);
+           });
         });
     },
 

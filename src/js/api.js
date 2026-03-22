@@ -79,3 +79,22 @@ export async function archiveAllDone() {
         throw error;
     }
 }
+
+export async function getSetting(key) {
+    try {
+        return await window.electronAPI.getSetting(key);
+    } catch (error) {
+        console.error("API Error [getSetting]:", error);
+        throw error;
+    }
+}
+
+export async function setSetting(key, value) {
+    try {
+        return await window.electronAPI.setSetting(key, value);
+    } catch (error) {
+        console.error("API Error [setSetting]:", error);
+        showErrorNotification("Failed to save setting.");
+        throw error;
+    }
+}

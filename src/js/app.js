@@ -4,18 +4,21 @@ import { initCalendar, renderCalendar } from './ui/calendar.js';
 import { initInsights, updateInsights } from './ui/insights.js';
 import { initArchive } from './ui/archive.js';
 import { initModal } from './ui/modal.js';
+import { initSettings } from './ui/settings.js';
 
 let currentView = 'kanban';
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     initKanban();
     initCalendar();
     initInsights();
     initArchive();
     initModal();
+    initSettings();
     
     setupViewSwitch();
 
+    await state.loadSettings(); // Load currency setting first
     state.loadTasks();
 });
 

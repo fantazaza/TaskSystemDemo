@@ -607,6 +607,13 @@ label {
     letter-spacing: 0.6px;
 }
 
+.field-info {
+    font-size: 0.75rem;
+    color: var(--text-3);
+    margin-top: 0.35rem;
+    font-style: italic;
+}
+
 input, textarea, select {
     width: 100%;
     background: var(--surface-2);

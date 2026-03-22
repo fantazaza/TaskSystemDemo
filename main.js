@@ -1,5 +1,6 @@
 const { app, BrowserWindow, ipcMain } = require('electron')
 const path = require('path')
+const dbHandler = require('./database')
 
 function createWindow () {
   const mainWindow = new BrowserWindow({
@@ -7,8 +8,9 @@ function createWindow () {
     height: 800,
     title: "Freelance Task Manager",
     webPreferences: {
-      nodeIntegration: true,
-      contextIsolation: false
+      nodeIntegration: false,
+      contextIsolation: true,
+      preload: path.join(__dirname, 'preload.js')
     }
   })
 
@@ -22,13 +24,21 @@ function createWindow () {
   mainWindow.loadFile('index.html')
 }
 
-app.whenReady().then(() => {
-  createWindow()
+app.whenReady().then(async () => {
+  // Initialize DB in main process
+  await dbHandler.init(app.getPath('userData'));
 
-  // Provide user data path to renderer for SQLite
-  ipcMain.handle('get-user-data-path', () => {
-    return app.getPath('userData')
-  })
+  // Register IPC handlers
+  ipcMain.handle('db:getTasks', async (event, filters) => dbHandler.getTasks(filters));
+  ipcMain.handle('db:addTask', async (event, task) => dbHandler.addTask(task));
+  ipcMain.handle('db:updateTask', async (event, task) => dbHandler.updateTask(task));
+  ipcMain.handle('db:deleteTask', async (event, id) => dbHandler.deleteTask(id));
+  ipcMain.handle('db:archiveTask', async (event, id) => dbHandler.archiveTask(id));
+  ipcMain.handle('db:restoreTask', async (event, id) => dbHandler.restoreTask(id));
+  ipcMain.handle('db:clearArchive', async (event) => dbHandler.clearArchive());
+  ipcMain.handle('db:archiveAllDone', async (event) => dbHandler.archiveAllDone());
+
+  createWindow()
 
   app.on('activate', function () {
     if (BrowserWindow.getAllWindows().length === 0) createWindow()

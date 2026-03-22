@@ -120,6 +120,27 @@ body {
     transform: translateY(-1px); 
 }
 
+.danger-btn {
+    background: var(--danger-light);
+    color: var(--danger);
+    border: 1px solid var(--danger);
+    padding: 0.6rem 1.4rem;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    font-family: inherit;
+    cursor: pointer;
+    margin-right: auto;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s;
+}
+.danger-btn:hover {
+    background: var(--danger);
+    color: #fff;
+    transform: translateY(-1px);
+}
+
 /* ─── Main Content ─────────────────────────────────── */
 .main-content {
     flex: 1 1 0;
@@ -220,11 +241,10 @@ body {
 .calendar-grid {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    /* Weekdays header row followed by auto-growing content rows */
-    grid-auto-rows: minmax(130px, auto); 
+    /* 1 row for weekday headers, 6 rows for up to 42 day cells */
+    grid-template-rows: max-content repeat(6, minmax(110px, auto)); 
     border: 1px solid var(--border);
     border-radius: 12px;
-    overflow: hidden;
     background: var(--border);
     gap: 1px;
 }
@@ -249,7 +269,6 @@ body {
 
 .calendar-day {
     background: var(--surface);
-    min-height: 130px;
     height: 100%;
     padding: 0.6rem;
     display: flex;
@@ -290,7 +309,6 @@ body {
     display: flex;
     flex-direction: column;
     gap: 3px;
-    overflow-y: auto;
 }
 
 .cal-task-item {

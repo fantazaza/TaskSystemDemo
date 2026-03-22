@@ -1,39 +1,51 @@
-# Freelance Task Manager (Demo Preview)
+# Freelance Task Manager (Premium Edition)
 
-> [!IMPORTANT]
-> **Technical Preview / Incomplete Demo**: This repository contains a work-in-progress preview of the Freelance Task Management System. Some features may be partially implemented or are intended for demonstration purposes only.
+A professional, high-performance task management system specifically designed for freelancers. Built with **Electron**, **SQLite**, and modern **Vanilla JS/CSS**, it offers a seamless desktop experience with complete data privacy and local storage.
 
-A premium task management system for freelancers, built with Electron and SQLite local storage.
+## ✨ Key Features
 
-## Project Status: Demo
-This version is a **limited demo** to showcase the UI/UX and core architecture. 
-- [x] Basic Task Tracking (Kanban)
-- [x] SQLite Local Integration
-- [x] Modern Dark UI
-- [x] Task Archiving
-- [ ] Full Data Export (In Progress)
-- [ ] Advanced Analytics (Coming Soon)
+- **🚀 Smart Kanban Board**: Drag-and-drop tasks between statuses (To Do, In Progress, Done) with real-time updates.
+- **📅 Full Calendar View**: Visualize your schedule and deadlines across months. Supports vertical expansion for heavy workload days.
+- **📊 Insights Dashboard**: Real-time analytics on earned revenue, pending payments, and project success rates with detailed breakdown charts.
+- **📁 Secure Archive Module**: Move completed tasks to a dedicated archive to keep your workspace clean. Supports per-item or bulk deletion.
+- **🎨 Modern Dark UI**: Sleek, glassmorphic design that reduces eye strain and looks premium.
+- **🛡️ Data Security & Isolation**: Uses specialized local storage paths (AppData/Roaming) to ensure your project data is safe from accidental deletion.
 
-## Installation (For Preview)
+## 🛠️ Technical Stack
 
-1. Clone or download this repository.
-2. Install the necessary dependencies:
+- **Framework**: Electron (Main & Preload Context Architecture)
+- **Database**: SQLite3 (Local, Encapsulated)
+- **Styling**: Vanilla CSS (Modern Grid/Flexbox Layouts)
+- **Logic**: ES6 Modules for clean, maintainable, and modular code.
+
+## 📦 Installation & Setup
+
+1. **Prerequisites**: Ensure you have [Node.js](https://nodejs.org/) installed.
+2. **Clone/Download** this repository.
+3. **Install Dependencies**:
    ```bash
    npm install
    ```
-3. Run the application locally in development mode:
+4. **Launch Application**:
    ```bash
    npm start
    ```
 
-## Build the App Wrapper
+## 🏗️ Build & Distribution
 
-To compile this project into an executable file (`.exe` for Windows, DMG for macOS, etc.):
+To package this application into a portable executable (`.exe` for Windows, `.dmg` for macOS):
 ```bash
 npm run build
 ```
+The final package will be generated in the `dist/` directory.
 
-The output will be available in the `dist/` directory.
+## 💾 Data Management
 
-## License
-[ISC License](LICENSE)
+By default, all data is stored locally in your system's `AppData/Roaming` directory:
+- **Windows**: `%APPDATA%\freelance-task-manager`
+- **Mac**: `~/Library/Application Support/freelance-task-manager`
+
+This ensures your data persists even if you update or move the application's source folder.
+
+## 📄 License
+This project is licensed under the [ISC License](LICENSE).

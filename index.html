@@ -166,8 +166,10 @@
                         <label for="taskDeadline">Deadline</label>
                         <div class="date-input-container">
                             <i class="fa-solid fa-calendar-day"></i>
-                            <span id="deadlineDisplay">Select Deadline</span>
-                            <input type="date" id="taskDeadline">
+                            <div class="date-clickable-text" onclick="this.querySelector('input').showPicker()">
+                                <span id="deadlineDisplay">Select Deadline</span>
+                                <input type="date" id="taskDeadline">
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -219,7 +221,7 @@
                     <span id="archiveCount" class="archive-badge">0</span>
                 </div>
                 <div class="archive-header-right">
-                    <div class="minimal-filter" id="archiveFilterTrigger">
+                    <div class="minimal-filter" id="archiveFilterTrigger" onclick="openArchivePicker()">
                         <i class="fa-solid fa-calendar-day"></i>
                         <span id="archiveDateDisplay" class="date-display">Select Date</span>
                         <input type="date" id="archiveDateFilter">

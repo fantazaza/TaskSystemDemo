@@ -13,6 +13,11 @@ export const state = {
         this.listeners.forEach(cb => cb(this.tasks));
     },
 
+    async loadTasks() {
+        this.tasks = await api.getTasks({}); // Fetch all tasks for all views
+        this.notify();
+    },
+
     async loadSettings() {
         const symbol = await api.getSetting('currency');
         if (symbol) {

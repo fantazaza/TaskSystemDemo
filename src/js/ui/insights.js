@@ -1,5 +1,7 @@
 import { state, formatCurrency } from '../state.js';
 import * as api from '../api.js';
+import { STATUS_COLORS, TASK_STATUSES } from '../constants.js';
+import { showErrorNotification } from '../validation.js';
 
 let currentPeriod = 'all';
 
@@ -69,8 +71,8 @@ export async function updateInsights(allTasks = state.tasks) {
     statusStack.innerHTML = '';
     statusLegend.innerHTML = '';
     
-    const statusGroups = ['todo', 'inprogress', 'done', 'archived'];
-    const colors = { todo: '#94a0ac', inprogress: '#2da2cc', done: '#5c9e78', archived: '#a159d1' };
+    const statusGroups = TASK_STATUSES;
+    const colors = STATUS_COLORS;
     
     statusGroups.forEach(status => {
         const groupTasks = filteredTasks.filter(t => t.status === status);
@@ -135,34 +137,58 @@ export async function updateInsights(allTasks = state.tasks) {
     }
 }
 
+function escapeCSV(str) {
+    if (!str) return '';
+    str = str.toString();
+    if (str.includes(',') || str.includes('"') || str.includes('\n')) {
+        return `"${str.replace(/"/g, '""')}"`;
+    }
+    return str;
+}
+
 async function exportTasksToCSV() {
-    const allTasks = await api.getTasks({});
-    if (allTasks.length === 0) {
-        alert('No tasks to export.');
-        return;
+    const btn = document.getElementById('exportCsvBtn');
+    let originalText = 'Export to CSV';
+    if (btn) {
+        originalText = btn.innerHTML;
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Exporting...';
     }
 
-    const headers = ["ID", "Title", "Description", `Price (${state.currency})`, "Deadline", "Status", "Created At", "Color"];
-    const rows = allTasks.map(t => [
-        t.id,
-        `"${t.title.replace(/"/g, '""')}"`,
-        `"${(t.description || '').replace(/"/g, '""')}"`,
-        t.price || 0,
-        t.deadline || 'N/A',
-        t.status,
-        t.createdAt,
-        t.color || '#5c9e78'
-    ]);
+    try {
+        const allTasks = await api.getTasks({});
+        if (allTasks.length === 0) {
+            showErrorNotification('No tasks to export.');
+            return;
+        }
 
-    const csvContent = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    
-    link.setAttribute("href", url);
-    link.setAttribute("download", `task_manager_export_${new Date().toISOString().split('T')[0]}.csv`);
-    link.style.visibility = 'hidden';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+        const headers = ["ID", "Title", "Description", `Price (${state.currency})`, "Deadline", "Status", "Created At", "Color"];
+        const rows = allTasks.map(t => [
+            escapeCSV(t.id),
+            escapeCSV(t.title),
+            escapeCSV(t.description),
+            escapeCSV(t.price || 0),
+            escapeCSV(t.deadline || 'N/A'),
+            escapeCSV(t.status),
+            escapeCSV(t.createdAt),
+            escapeCSV(t.color || '#5c9e78')
+        ]);
+
+        const csvContent = [headers.join(','), ...rows.map(r => r.join(','))].join('\n');
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        
+        link.setAttribute("href", url);
+        link.setAttribute("download", `task_manager_export_${new Date().toISOString().split('T')[0]}.csv`);
+        link.style.visibility = 'hidden';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    } finally {
+        if (btn) {
+            btn.disabled = false;
+            btn.innerHTML = originalText;
+        }
+    }
 }

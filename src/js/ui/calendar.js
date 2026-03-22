@@ -54,13 +54,15 @@ function renderCalendar(tasks) {
     }
 }
 
-function createDayElement(dayNumber, isOtherMonth, isToday, tasks) {
+function createDayElement(dayNumber, isOtherMonth, isToday, tasks, monthOffset = 0) {
     const div = document.createElement('div');
     div.className = `calendar-day ${isOtherMonth ? 'other-month' : ''} ${isToday ? 'today' : ''}`;
     
-    const year = calendarDate.getFullYear();
-    const month = String(calendarDate.getMonth() + 1).padStart(2, '0');
-    const day = String(dayNumber).padStart(2, '0');
+    // Calculate the actual date for this cell
+    const actualDate = new Date(calendarDate.getFullYear(), calendarDate.getMonth() + monthOffset, dayNumber);
+    const year = actualDate.getFullYear();
+    const month = String(actualDate.getMonth() + 1).padStart(2, '0');
+    const day = String(actualDate.getDate()).padStart(2, '0');
     const fullDate = `${year}-${month}-${day}`;
     
     div.setAttribute('data-date', fullDate);
@@ -135,7 +137,6 @@ function createDayElement(dayNumber, isOtherMonth, isToday, tasks) {
             await api.updateTask({ id: taskId, deadlineOnly: true, deadline: fullDate });
             state.loadTasks();
         });
-    }
     
     return div;
 }

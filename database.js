@@ -26,6 +26,9 @@ module.exports = {
                     color TEXT
                 )`);
 
+                // Create index on status for faster filtering
+                db.run(`CREATE INDEX IF NOT EXISTS idx_tasks_status ON tasks(status)`);
+
                 // We try adding color column, ignoring error if it exists (for backward compatibility)
                 db.run(`ALTER TABLE tasks ADD COLUMN color TEXT`, (err) => {
                     resolve();

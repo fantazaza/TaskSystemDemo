@@ -1,7 +1,6 @@
 const { app, BrowserWindow, ipcMain } = require('electron')
 const path = require('path')
 const dbHandler = require('./database')
-const googleCalendar = require('./googleCalendar')
 
 function createWindow () {
   const mainWindow = new BrowserWindow({
@@ -26,20 +25,30 @@ function createWindow () {
 }
 
 app.whenReady().then(async () => {
-  // Initialize DB and Google Calendar in main process
+  // Initialize DB in main process
   const userDataPath = app.getPath('userData');
   await dbHandler.init(userDataPath);
-  googleCalendar.init(userDataPath);
 
-  // Register IPC handlers
-  ipcMain.handle('db:getTasks', async (event, filters) => dbHandler.getTasks(filters));
-  ipcMain.handle('db:addTask', async (event, task) => dbHandler.addTask(task));
-  ipcMain.handle('db:updateTask', async (event, task) => dbHandler.updateTask(task));
-  ipcMain.handle('db:deleteTask', async (event, id) => dbHandler.deleteTask(id));
-  ipcMain.handle('db:archiveTask', async (event, id) => dbHandler.archiveTask(id));
-  ipcMain.handle('db:restoreTask', async (event, id) => dbHandler.restoreTask(id));
-  ipcMain.handle('db:clearArchive', async (event) => dbHandler.clearArchive());
-  ipcMain.handle('db:archiveAllDone', async (event) => dbHandler.archiveAllDone());
+  // Register IPC handlers with error protection
+  const wrapHandler = (name, fn) => {
+    ipcMain.handle(name, async (event, ...args) => {
+      try {
+        return await fn(...args);
+      } catch (error) {
+        console.error(`IPC Handler Error [${name}]:`, error);
+        throw error; // Re-throw to be caught by the renderer's try/catch
+      }
+    });
+  };
+
+  wrapHandler('db:getTasks', (filters) => dbHandler.getTasks(filters));
+  wrapHandler('db:addTask', (task) => dbHandler.addTask(task));
+  wrapHandler('db:updateTask', (task) => dbHandler.updateTask(task));
+  wrapHandler('db:deleteTask', (id) => dbHandler.deleteTask(id));
+  wrapHandler('db:archiveTask', (id) => dbHandler.archiveTask(id));
+  wrapHandler('db:restoreTask', (id) => dbHandler.restoreTask(id));
+  wrapHandler('db:clearArchive', () => dbHandler.clearArchive());
+  wrapHandler('db:archiveAllDone', () => dbHandler.archiveAllDone());
 
   createWindow()
 

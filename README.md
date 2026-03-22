@@ -1,56 +1,56 @@
 # Freelance Task Manager (Premium Edition)
 
-ระบบจัดการงานระดับมืออาชีพที่ออกแบบมาเพื่อฟรีแลนซ์โดยเฉพาะ พัฒนาด้วย **Electron**, **SQLite** และ **Vanilla JS/CSS** สมัยใหม่ มอบประสบการณ์การใช้งานบนเดสก์ท็อปที่ลื่นไหล พร้อมความปลอดภัยของข้อมูลขั้นสูงสุดด้วยการจัดเก็บข้อมูลแบบ Local
+A professional-grade task management system designed specifically for freelancers. Built with modern **Electron**, **SQLite**, and **Vanilla JS/CSS**, it delivers a seamless desktop experience with uncompromising data privacy through purely local storage.
 
 ---
 
-## ✨ ฟีเจอร์เด่น (Key Features)
+## ✨ Key Features
 
-- **🚀 Smart Kanban Board**: ระบบลากวางงาน (Drag-and-drop) ระหว่างสถานะ To Do, In Progress และ Done พร้อมอัปเดตแบบเรียลไทม์
-- **📅 Full Calendar View**: ดูตารางงานและเส้นตาย (Deadline) ของคุณในรูปแบบปฏิทินที่รองรับการขยายช่องเมื่อมีงานหนาแน่นในแต่ละวัน
-- **📊 Insights Dashboard**: หน้าปัดสรุปสถิติแบบเรียลไทม์ แสดงรายได้ที่ได้รับแล้ว (Earned), รายได้ที่รอรับ (Pending) และอัตราความสำเร็จ (Success Rate) พร้อมกราฟสัดส่วนงาน
-- **💰 Dynamic Currency Settings**: เมนูตั้งค่าใหม่ให้คุณเลือกสัญลักษณ์สกุลเงิน (เช่น $, ฿, €) ได้ตามต้องการ โดยระบบจะอัปเดตการแสดงผลราคาทุกจุด รวมถึงตอน Export ให้โดยอัตโนมัติ
-- **📥 CSV Export**: ส่งออกรายการงานทั้งหมดของคุณเป็นไฟล์ `.csv` อย่างง่ายดาย รองรับข้อความที่มีลูกน้ำ (Comma) หรือบรรทัดใหม่ (New line) อย่างสมบูรณ์แบบ
-- **🔔 Modern Toast Notifications**: ระบบแจ้งเตือนข้อผิดพลาดและการทำงานที่สวยงามและหายไปเองอัตโนมัติ (ไม่ใช้ Popup น่ารำคาญ)
-- **📁 Secure Archive Module**: ระบบจัดเก็บงานที่ทำเสร็จแล้วเข้าสู่ Archive เพื่อให้พื้นที่ทำงานของคุณสะอาดตา สามารถเลือกลบถาวรหรือกู้คืนกลับไปยังสถานะเดิมได้
-- **🎨 Modern Dark UI**: ดีไซน์แบบ Glassmorphism สไตล์พรีเมียม ถนอมสายตา ใช้งานได้ยาวนาน
-- **🛡️ Data Security & Isolation**: ดาต้าเบสถูกแยกไปเก็บไว้ใน AppData ของระบบปฏิบัติการอย่างปลอดภัย ป้องกันไฟล์โปรเจคเสียหายหรือสูญหาย
+- **🚀 Smart Kanban Board**: Drag-and-drop tasks between statuses (To Do, In Progress, and Done) with instantaneous real-time UI updates.
+- **📅 Full Calendar View**: Visualize your schedule and deadlines in a calendar format that supports vertical cell expansion for heavy workload days.
+- **📊 Insights Dashboard**: A real-time analytics dashboard displaying Earned Revenue, Pending Revenue, and your overall Success Rate with color-coded breakdown charts.
+- **💰 Dynamic Currency Settings**: A new settings menu to configure your preferred currency symbol (e.g., $, ฿, €). The system automatically updates price displays everywhere, including CSV exports.
+- **📥 CSV Export**: Seamlessly export your entire task list to a `.csv` file. Fully supports complex data including commas and newlines within task descriptions.
+- **🔔 Modern Toast Notifications**: Elegant, auto-dismissing toast notifications handle errors and validation warnings, replacing intrusive browser popups.
+- **📁 Secure Archive Module**: Keep your workspace clean by moving completed tasks to a dedicated archive. Supports permanent deletion or smart restoration (restoring tasks back to their original column).
+- **🎨 Modern Dark UI**: A sleek, glassmorphic premium design tailored to reduce eye strain during extended work sessions.
+- **🛡️ Data Security & Isolation**: The SQLite database is safely stored in the OS's protected AppData directory, preventing accidental data loss or project corruption.
 
-## 🛠️ เทคโนโลยีที่ใช้ (Technical Stack)
+## 🛠️ Technical Stack
 
 - **Framework**: Electron (Main & Preload Context Architecture)
 - **Database**: SQLite3 (Local, Encapsulated)
 - **Styling**: Vanilla CSS (Modern Grid/Flexbox Layouts + CSS Variables)
-- **Logic**: ES6 Modules แยกไฟล์ชัดเจน ง่ายต่อการดูแลรักษา (State Management, API, UI Components)
+- **Logic**: ES6 Modules for clean, maintainable code execution (Separated into State Management, APIs, and UI Components).
 
-## 📦 การติดตั้งและการใช้งาน (Installation & Setup)
+## 📦 Installation & Setup
 
-1. **ข้อกำหนดเบื้องต้น**: ตรวจสอบให้แน่ใจว่าคุณติดตั้ง [Node.js](https://nodejs.org/) ในเครื่องแล้ว
-2. **Clone หรือดาวน์โหลด** ไฟล์ใน Repository นี้
-3. **ติดตั้ง Dependencies**:
+1. **Prerequisites**: Ensure you have [Node.js](https://nodejs.org/) installed on your machine.
+2. **Clone or Download** this repository.
+3. **Install Dependencies**:
    ```bash
    npm install
    ```
-4. **เปิดแอปพลิเคชัน**:
+4. **Launch Application**:
    ```bash
    npm start
    ```
 
-## 🏗️ การ Build โปรแกรมเพื่อนำไปใช้ (Build & Distribution)
+## 🏗️ Build & Distribution
 
-หากคุณต้องการแพ็กเกจแอปพลิเคชันนี้เพื่อนำไปติดตั้งเป็นไฟล์ `.exe` (สำหรับ Windows) หรือ `.dmg` (สำหรับ macOS):
+To package this application into a deployable executable (`.exe` for Windows, `.dmg` for macOS):
 ```bash
 npm run build
 ```
-ระบบจะสร้างไฟล์สำหรับติดตั้งให้คุณในโฟลเดอร์ `dist/` ทันที
+The compiled installation packages will be generated within the `dist/` directory.
 
-## 💾 การจัดการข้อมูล (Data Management)
+## 💾 Data Management
 
-ข้อมูลทั้งหมดของคุณ (รวมถึงการตั้งค่าสกุลเงิน) จะถูกเก็บไว้ในเครื่องของคุณ 100% โดยอยู่ที่:
-- **Windows**: `%APPDATA%\TaskSystem\tasksystemDB.db` (หรือตามชื่อโปรเจคใน User Data)
+100% of your data (including currency settings) is stored locally and securely isolated on your machine:
+- **Windows**: `%APPDATA%\TaskSystem\tasksystemDB.db` (or application name in User Data)
 - **Mac**: `~/Library/Application Support/TaskSystem/tasksystemDB.db`
 
-การเก็บข้อมูลแบบนี้ทำให้คุณมั่นใจได้ว่าแม้จะลบโฟลเดอร์โปรแกรมทิ้ง หรืออัปเดตเวอร์ชันใหม่ ข้อมูลงานทั้งหมดก็จะยังคงอยู่เหมือนเดิม
+This methodology ensures that your data remains completely intact even if you uninstall, update, or move the application directory.
 
 ## 📄 License
-โปรเจคนี้อยู่ภายใต้ไลเซนส์ [ISC License](LICENSE)
+This project is licensed under the [ISC License](LICENSE).

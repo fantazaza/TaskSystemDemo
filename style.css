@@ -850,22 +850,43 @@ select option { background: var(--surface-2); }
     transition: all 0.2s;
     margin-top: 5px;
 }
-.date-input-container:hover {
-    border-color: var(--border-hover);
-    background: var(--surface);
-    transform: translateY(-1px);
+.date-input-container {
+    position: relative;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 0.65rem 0.9rem;
+    display: flex;
+    align-items: center;
+    transition: all 0.2s;
+    margin-top: 5px;
 }
+
 .date-input-container i {
     color: var(--text-3);
     font-size: 1rem;
     margin-right: 12px;
+    pointer-events: none;
 }
-.date-input-container span {
+
+.date-clickable-text {
+    position: relative;
+    flex: 1;
+    cursor: pointer;
+}
+
+.date-clickable-text:hover span {
+    color: var(--accent);
+}
+
+.date-clickable-text span {
     color: var(--text-1);
     font-size: 0.9rem;
     pointer-events: none;
+    display: block;
 }
-.date-input-container input[type="date"] {
+
+.date-clickable-text input[type="date"] {
     position: absolute;
     inset: 0;
     opacity: 0;

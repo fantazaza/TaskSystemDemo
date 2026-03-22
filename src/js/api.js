@@ -1,4 +1,4 @@
-import { showErrorNotification } from './validation.js';
+import { validateTask, showErrorNotification } from './validation.js';
 
 export async function getTasks(filters = {}) {
     try {
@@ -11,6 +11,12 @@ export async function getTasks(filters = {}) {
 }
 
 export async function addTask(taskData) {
+    const errors = validateTask(taskData);
+    if (errors.length > 0) {
+        showErrorNotification(errors[0]);
+        throw new Error(errors[0]);
+    }
+
     try {
         return await window.electronAPI.addTask(taskData);
     } catch (error) {
@@ -21,6 +27,14 @@ export async function addTask(taskData) {
 }
 
 export async function updateTask(taskData) {
+    if (!taskData.statusOnly && !taskData.deadlineOnly) {
+        const errors = validateTask(taskData);
+        if (errors.length > 0) {
+            showErrorNotification(errors[0]);
+            throw new Error(errors[0]);
+        }
+    }
+
     try {
         return await window.electronAPI.updateTask(taskData);
     } catch (error) {

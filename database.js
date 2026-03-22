@@ -23,7 +23,8 @@ module.exports = {
                     deadline TEXT,
                     status TEXT,
                     createdAt TEXT,
-                    color TEXT
+                    color TEXT,
+                    originalStatus TEXT
                 )`);
 
                 // Create index on status for faster filtering
@@ -38,8 +39,9 @@ module.exports = {
                    db.run(`INSERT OR IGNORE INTO settings (key, value) VALUES ('currency', '$')`);
                 });
 
-                // We try adding color column, ignoring error if it exists (for backward compatibility)
-                db.run(`ALTER TABLE tasks ADD COLUMN color TEXT`, (err) => {
+                // Add originalStatus column if it doesn't exist (for existing databases)
+                db.run(`ALTER TABLE tasks ADD COLUMN originalStatus TEXT`, (err) => {
+                    // Silently ignore error if column already exists
                     resolve();
                 });
             });
@@ -59,7 +61,7 @@ module.exports = {
         return new Promise((resolve, reject) => {
            db.run(`INSERT OR REPLACE INTO settings (key, value) VALUES (?, ?)`, [key, value], function(err) {
                if (err) reject(err);
-               else resolve(true);
+               else resolve(this.changes);
            });
         });
     },
@@ -76,10 +78,8 @@ module.exports = {
                     query += " AND status = ?";
                     params.push(filters.status);
                 }
-            } else {
-                // Default to everything
             }
-
+            
             if (filters.date) {
                 query += " AND strftime('%Y-%m-%d', createdAt) = ?";
                 params.push(filters.date);
@@ -139,7 +139,7 @@ module.exports = {
 
     archiveTask: function(id) {
         return new Promise((resolve, reject) => {
-            db.run(`UPDATE tasks SET status = 'archived' WHERE id = ?`, [id], function(err) {
+            db.run(`UPDATE tasks SET originalStatus = status, status = 'archived' WHERE id = ?`, [id], function(err) {
                 if (err) reject(err);
                 else resolve(this.changes);
             });
@@ -148,7 +148,7 @@ module.exports = {
 
     restoreTask: function(id) {
         return new Promise((resolve, reject) => {
-            db.run(`UPDATE tasks SET status = 'done' WHERE id = ?`, [id], function(err) {
+            db.run(`UPDATE tasks SET status = COALESCE(originalStatus, 'todo'), originalStatus = NULL WHERE id = ?`, [id], function(err) {
                 if (err) reject(err);
                 else resolve(this.changes);
             });
@@ -166,7 +166,7 @@ module.exports = {
 
     archiveAllDone: function() {
         return new Promise((resolve, reject) => {
-            db.run(`UPDATE tasks SET status = 'archived' WHERE status = 'done'`, function(err) {
+            db.run(`UPDATE tasks SET originalStatus = status, status = 'archived' WHERE status = 'done'`, function(err) {
                 if (err) reject(err);
                 else resolve(this.changes);
             });

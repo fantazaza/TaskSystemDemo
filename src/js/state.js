@@ -14,16 +14,26 @@ export const state = {
     },
 
     async loadTasks() {
-        this.tasks = await api.getTasks({}); // Fetch all tasks for all views
-        this.notify();
+        try {
+            this.tasks = await api.getTasks({}); // Fetch all tasks for all views
+            this.notify();
+        } catch (error) {
+            console.error("Failed to load tasks:", error);
+            this.tasks = []; // Reset tasks state on error
+            this.notify();
+        }
     },
 
     async loadSettings() {
-        const symbol = await api.getSetting('currency');
-        if (symbol) {
-            this.currency = symbol;
-            this.updateGlobalUI();
-            this.notify();
+        try {
+            const symbol = await api.getSetting('currency');
+            if (symbol) {
+                this.currency = symbol;
+                this.updateGlobalUI();
+                this.notify();
+            }
+        } catch (error) {
+            console.error("Failed to load settings:", error);
         }
     },
 
@@ -34,12 +44,18 @@ export const state = {
 };
 
 export function generateId() {
-    return Date.now().toString(36) + Math.random().toString(36).substring(2);
+    try {
+        return crypto.randomUUID();
+    } catch (e) {
+        // Fallback for older environments
+        return Date.now().toString(36) + Math.random().toString(36).substring(2) + Math.random().toString(36).substring(2);
+    }
 }
 
 export function formatCurrency(amount) {
-    if (!amount) return state.currency + '0';
-    return state.currency + parseFloat(amount).toLocaleString('en-US');
+    const symbol = state.currency || '$';
+    if (!amount) return symbol + '0';
+    return symbol + parseFloat(amount).toLocaleString('en-US');
 }
 
 export function formatDate(dateStr) {

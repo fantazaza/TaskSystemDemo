@@ -2,9 +2,9 @@ export function validateTask(task) {
     const errors = [];
     
     if (!task.title || task.title.trim().length === 0) {
-        errors.push("Title is required.");
+        errors.push("Task title is required.");
     } else if (task.title.length > 100) {
-        errors.push("Title must be under 100 characters.");
+        errors.push("Task title must be under 100 characters.");
     }
 
     if (task.description && task.description.length > 500) {
@@ -13,9 +13,7 @@ export function validateTask(task) {
 
     const price = parseFloat(task.price);
     if (isNaN(price) || price < 0) {
-        errors.push("Price must be a valid non-negative number.");
-    } else if (price > 1000000) {
-        errors.push("Price seems unusually high. Please verify.");
+        errors.push("Budget must be a non-negative number.");
     }
 
     if (task.deadline) {
@@ -25,9 +23,24 @@ export function validateTask(task) {
         }
     }
 
+    if (!['todo', 'inprogress', 'done'].includes(task.status)) {
+        errors.push("Status must be: todo, inprogress, or done.");
+    }
+
     return errors;
 }
 
 export function showErrorNotification(message) {
-    alert(`Error: ${message}`);
+    const existing = document.querySelector('.notification');
+    if (existing) existing.remove();
+
+    const notification = document.createElement('div');
+    notification.className = 'notification error';
+    notification.innerHTML = `<i class="fa-solid fa-circle-exclamation"></i> <span>${message}</span>`;
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        notification.classList.add('fade-out');
+        setTimeout(() => notification.remove(), 500);
+    }, 4000);
 }

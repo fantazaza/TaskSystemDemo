@@ -11,6 +11,10 @@ contextBridge.exposeInMainWorld('electronAPI', {
     archiveAllDone: () => ipcRenderer.invoke('db:archiveAllDone'),
     
     // Settings API
-    getSetting: (key) => ipcRenderer.invoke('setting:get', key),
-    setSetting: (key, value) => ipcRenderer.invoke('setting:set', key, value)
+    getSetting: (key) => ipcRenderer.invoke('getSetting', key),
+    setSetting: (key, value) => ipcRenderer.invoke('setSetting', key, value),
+    
+    // Legacy/Internal Prefix versions (to support existing internal code)
+    'setting:get': (key) => ipcRenderer.invoke('getSetting', key),
+    'setting:set': (key, value) => ipcRenderer.invoke('setSetting', key, value)
 });
